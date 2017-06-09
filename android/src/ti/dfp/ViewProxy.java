@@ -1,6 +1,8 @@
 package ti.dfp;
 
 import org.appcelerator.kroll.KrollDict;
+import org.appcelerator.titanium.TiBaseActivity;
+import org.appcelerator.titanium.TiLifecycle.OnLifecycleEvent;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.proxy.TiViewProxy;
 import org.appcelerator.kroll.common.Log;
@@ -9,7 +11,7 @@ import org.appcelerator.titanium.view.TiUIView;
 import android.app.Activity;
 
 @Kroll.proxy(creatableInModule = DfpModule.class)
-public class ViewProxy extends TiViewProxy {
+public class ViewProxy extends TiViewProxy implements OnLifecycleEvent {
 	private View dfpView;
 	private static final String TAG = "DfpViewProxy";
 
@@ -26,6 +28,7 @@ public class ViewProxy extends TiViewProxy {
 
 	@Override
 	public TiUIView createView(Activity activity) {
+		((TiBaseActivity) activity).addOnLifecycleEventListener(this);
 		dfpView = new View(this);
 		return dfpView;
 	}
